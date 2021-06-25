@@ -14,6 +14,7 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+    firstLetterUsername: String!
   }
 
   type Error {
@@ -40,13 +41,18 @@ const typeDefs = gql`
 
 const resolvers = {
   User: {
-    username: () => "i am username",
+    firstLetterUsername: (parent) => {
+      return parent.username[0];
+    },
+    // username: (parent) => {
+    //   return parent.username;
+    // },
   },
   Query: {
     hello: () => null,
     user: () => ({
       id: 1,
-      username: "bob",
+      username: "smithhashhh",
     }),
   },
   Mutation: {
@@ -64,7 +70,7 @@ const resolvers = {
       ],
       user: {
         id: 1,
-        username: "bob",
+        username: "tomas",
       },
     }),
   },
