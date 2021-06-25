@@ -34,11 +34,14 @@ const typeDefs = gql`
 
   type Mutation {
     register(userInfo: UserInfo!): RegisterResponse!
-    login(userInfo: UserInfo!): Boolean!
+    login(userInfo: UserInfo!): String!
   }
 `;
 
 const resolvers = {
+  User: {
+    username: () => "i am username",
+  },
   Query: {
     hello: () => null,
     user: () => ({
@@ -47,7 +50,11 @@ const resolvers = {
     }),
   },
   Mutation: {
-    login: () => true,
+    login: async (parent, { userInfo: { username } }, context) => {
+      // check the password
+      // await checkPassword(password);
+      return username;
+    },
     register: () => ({
       errors: [
         {
@@ -63,6 +70,10 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: (req, res) => ({ req, res }),
+});
 
 server.listen().then(({ url }) => console.log(`server starte at ${url}`));
