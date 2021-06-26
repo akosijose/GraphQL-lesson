@@ -52,7 +52,7 @@ const resolvers = {
     hello: () => null,
     user: () => ({
       id: 1,
-      username: "smithhashhh",
+      username: "test_username",
     }),
   },
   Mutation: {
